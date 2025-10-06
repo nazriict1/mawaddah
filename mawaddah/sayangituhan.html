@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nasyid Mawaddah</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+   body {
+  font-family: Arial, sans-serif;
+  background: #1A173D;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centerkan semua card */
+}
+
+    /* --- Header --- */
+    .header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      position: relative;
+    }
+
+    .header h1 {
+      font-size: 3em;
+      margin: 0;
+      color: #f5f6fa;
+    }
+
+    .header p {
+      font-size: 1em;
+      color: #dcdde1;
+      margin-top: 8px;
+    }
+
+    /* --- Hamburger Button --- */
+    .menu-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .menu-toggle div {
+      width: 20px;
+      height: 3px;
+      background-color: #f5f6fa;
+      margin: 5px 0;
+      transition: 0.4s;
+      border-radius: 2px;
+    }
+
+    /* Animasi bila aktif */
+    .menu-toggle.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .menu-toggle.active div:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-toggle.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* --- Navigasi (tersembunyi) --- */
+    nav {
+      position: fixed;
+      top: 0;
+      right: -1100%;
+      width: 220px;
+      height: 100%;
+      background: #2f3640;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.6);
+      transition: right 0.4s ease;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 100px;
+      padding-left: 25px;
+    }
+
+    nav.active {
+      right: 0;
+    }
+
+    nav a {
+      display: block;
+      color: #f5f6fa;
+      text-decoration: none;
+      margin: 10px 0;
+     
+      font-size: 0.6em; /* kecil & kemas */
+      transition: color 0.3s;
+      white-space: nowrap; /* kekal sebaris */
+      overflow: hidden;
+      text-overflow: ellipsis; /* tambah “…” kalau terlalu panjang */
+      max-width: 170px; /* kawal lebar menu */
+    }
+
+    nav a:hover {
+      color: #00a8ff;
+    }
+          
+    /* Untuk desktop (lebih besar dari 768px) */
+    @media (min-width: 768px) {
+      nav a {
+        font-size: 15px;}
+      .menu-toggle {
+      position: absolute;
+      top: 20px;
+      right: -100px;}    
+            
+            
+            
+      }
+
+    /* --- Kandungan --- */
+    .container {
+      max-width: 800px;
+      margin: 10 auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #2f3640;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      margin-bottom: 30px;
+      padding: 25px;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp 1.2s forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.2s; }
+    .card:nth-child(2) { animation-delay: 0.4s; }
+    .card:nth-child(3) { animation-delay: 0.6s; }
+
+    .title {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #00a8ff;
+      text-align: left;
+      margin-bottom: 1px;
+    }
+
+    .card p {
+      line-height: 1.3;
+      color: #dcdde1;
+      white-space: pre-line;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Butang Scroll Up --- */
+    #scrollUpBtn {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      background-color: #00a8ff;
+      color: white;
+      border: none;
+      outline: none;
+      padding: 15px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      transition: background 0.3s;
+    }
+
+    #scrollUpBtn:hover {
+      background-color: #0984e3;
+    }
+    
+    .image-box {
+  width: 100%;
+  max-width: 500px;        /* kawal lebar maksimum */
+  margin: 0px auto;       /* center gambar */
+  border-radius: 20px;     /* bucu melengkung */
+  overflow: hidden;        /* pastikan gambar ikut bentuk radius */
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.3); /* bayang lembut */
+}
+
+.image-box img {
+  width: 80%;
+  display: block;
+  margin: 0 auto; /* inilah kunci untuk center gambar */
+  border-radius: 20px;
+  transition: transform 0.4s ease; /* efek animasi bila hover */
+}
+.image-box img:hover {
+  transform: scale(1.05); /* sedikit zoom bila hover */
+}
+    
+
+.video-container {
+  position: relative;
+  width: 100%;          /* ikut lebar parent */
+  max-width: 800px;     /* hadkan supaya tak terlalu besar di desktop */
+  margin: auto;         /* center di desktop */
+  aspect-ratio: 16 / 9; /* nisbah 16:9 */
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Sayangi Tuhan</h1>
+    <p>Album pertama Mawaddah</p>
+
+    <!-- Butang Hamburger -->
+    <button class="menu-toggle" id="menuToggle">
+      <div></div>
+      <div></div>
+      <div></div>
+    </button>
+  </div>
+
+  <!-- Navigasi -->
+  <nav id="menu">
+    <a href="#lagu1" onclick="closeMenu()">Bila Tuhan Tak Ditakuti</a>
+    <hr style="border: none; height: 1px; background: #8888945c; width: 220px; margin: 0px 0; text-align: left;">
+    <a href="#lagu2" onclick="closeMenu()">Inilah Dia Allah</a>
+       <hr style="border: none; height: 1px; background: #8888945c; width: 220px; margin: 0px 0; text-align: left;">
+    <a href="#lagu3" onclick="closeMenu()">Rasai Kehebatan Tuhan</a>
+       <hr style="border: none; height: 1px; background: #8888945c; width: 220px; margin: 0px 0; text-align: left;">
+       
+         <a href="#lagu4" onclick="closeMenu()">Terima Kasih Tuhan</a>
+       <hr style="border: none; height: 1px; background: #8888945c; width: 220px; margin: 0px 0; text-align: left;">
+       
+       <a href="#lagu5" onclick="closeMenu()">Tuhan, Luruskan Hatiku</a>
+       <hr style="border: none; height: 1px; background: #8888945c; width: 220px; margin: 0px 0; text-align: left;">
+       
+       
+       <a href="#lagu6" onclick="closeMenu()">Ku Pinta Redho Mu</a>
+       <hr style="border: none; height: 1px; background: #8888945c; width: 220px; margin: 0px 0; text-align: left;">
+       
+   
+       
+      
+  </nav>
+
+<div class="image-box">
+  <img src="http://mawaddah.mywebcommunity.org/mawaddah/img/c01.jpg" alt="Gambar Nasyid">
+</div>
+
+
+  <div class="container">
+    <div class="card" id="lagu1">
+      <div class="title">Bila Tuhan Tak Ditakuti</div>
+      <p>
+Bila Tuhan tak ditakuti
+Macam-macam boleh terjadi
+Tiap orang tak ketahuan
+Hala hidupnya sendiri
+Maka rosaklah di sana-sini
+
+Ada manusia puja alam sebagai Tuhan
+Mabuk dengan gelombang laut yang menggulung
+Digambarkan dengan kata sastera mempesona
+Mereka tenggelam dalam gelombang sasteranya
+Dia leka sendiri dengan buah penanya
+
+Bagai orang tenggelam dalam lautan menggulung
+Tidak tahu tujuan ke mana mahu pergi
+
+Ada yang sibuk bercakap dengan emosinya sekali
+Mengelilingi seluruh negeri
+Kadang-kadang berbohong sesuka hati
+Berkata tidak mengkota
+Mengecam orang tak usah dikira
+Sudah jadi makan minumnya
+
+Ulangan (2×):
+Bila Tuhan tak ditakuti
+Macam-macam boleh terjadi
+Tiap orang tak ketahuan
+Hala hidupnya sendiri
+Maka rosaklah di sana-sini
+
+Ada golongan sibuk dengan kesalahan orang
+Seolah-olah mereka wira agama
+Konon hendak membersihkan agama dari noda
+Yang sebenarnya berlakon di depan manusia
+Bukan hidup realitinya
+
+( Ulangan bahagian awal )
+
+Mereka lupa diri sendiri
+Mereka sendiri buat dosa
+Membeli kereta dan rumah
+Terdapat dengan riba’
+Anak-anak dan juga isteri
+Terdedah aurat setiap hari
+Perbualan setiap hari
+Tentang kenaikan gaji dan pangkat
+Hidup sendiri nafsi-nafsi
+Kecuali ada urusan rasmi
+Yang ada kaitan dengan gaji
+
+( Ulangan bahagian awal )
+
+Bakhilnya amat ketara sekali
+Mereka lupa semua itu adalah
+Kesesatan dalam beragama
+
+Yang punya kuasa berbangga dengan kuasanya
+Menggertak manusia setiap hari
+Akta-akta dibuat untuk selamatkan diri mereka
+Membantu orang bukan dari hatinya sendiri
+
+Jasa-jasa disebut berulang-ulang kali
+Menceritakan jasa kepada manusia
+Maka hilanglah pahalanya
+Menipu diri tak disedari
+
+( Ulangan bahagian awal )
+
+Tak kurang juga ada di kalangan manusia
+Setiap hari memikirkan hendak menghiburkan manusia
+Bervariasi cara dan gaya dipertunjukkan
+Rupanya jiwa mereka sendiri tak terhibur
+Jiwa mereka derita
+Tak kurang juga yang bunuh diri
+
+( Ulangan bahagian awal )
+      </p>
+<div class="video-container">
+ <iframe width="560" height="315" src="https://www.youtube.com/embed/9px8loLyGRU?si=Xt2gUCg1s6nIJ8na" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>           
+</div>    </div>
+
+    <div class="card" id="lagu2">
+      <div class="title">Inilah Dia Allah</div>
+      <p>
+Tuhan adalah Zat Yang Maha Agung
+Wujud-Nya tiada mula dan sudahnya
+Kerana Ia bukan kejadian
+Tiada siapa yang menjadikan
+
+Kuasa-Nya Maha Hebat tiada batasannya
+Kehendak-Nya terjadi bila Ia berkata:
+“Jadilah!” — terus terjadilah
+Tiada siapa dapat menghalang
+
+Ia tiada bertempat
+Kerana tempat Ia yang menjadikan
+Dia memberi tiada mengambil manfaat
+Kerana Ia tiada berhajat
+
+Ia sudah sempurna
+Tiada mengambil ruang
+Kerana ruang itu ciptaan-Nya
+Dia disembah atau tidak
+Tiada berkurang, tiada bertambah
+
+Kalau bertambah ertinya Dia kurang
+Dia tetap dengan kesempurnaan-Nya
+Maha Suci Ia dari kekurangan
+Ia sediakala
+
+Tiada didahului oleh tiada
+Zat-Nya tidak dapat difikirkan
+Bagaimanapun dibayangkan
+Itu semua mainan syaitan
+
+Tuhan adalah Zat Yang Maha Agung
+Wujud-Nya tiada mula dan sudahnya
+Kerana Ia bukan kejadian
+Tiada siapa yang menjadikan
+
+Kuasa-Nya Maha Hebat tiada batasannya
+Kehendak-Nya terjadi bila Ia berkata:
+“Jadilah!” — terus terjadilah
+Tiada siapa dapat menghalang
+
+
+      </p>
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/psJ_pJph9V4?si=nq7HGSoGrQDXxiSN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+    </div>
+
+    <div class="card" id="lagu3">
+      <div class="title">
+          Rasai Kehebatan Tuhan
+      </div>
+      <p>
+Bila engkau lihat rumah orang besar
+Dengan taman-taman bunganya yang indah
+Keretanya yang besar menjalar dengan megah
+Terus menerpa ke dalam fikiranmu
+Dan terus terasa di jiwamu
+Meluncur ke mulutmu
+Hebatnya Tuhan yang empunya
+
+Tapi aku heran dengan-Mu,
+Engkau tak terasa kehebatan Tuhan
+Padahal Tuhan miliki lebih dari itu
+Nasib manusia Tuhan yang menentukan
+Dia miliki langit, bumi dan seluruhnya
+
+Dunia dan akhirat Ia yang punya
+Manusia dan seluruh makhluk dicipta-Nya
+Malam dan siang Tuhan yang mentabirnya
+Setiap saat engkau melihat-Nya
+Engkau tidak terasa apa-apa
+Engkau pandang bersahaja
+Engkau tak terasa maha agungnya
+Yang empunya
+Tidak engkau kagum dengan Tuhan Pencipta
+
+Tujuh rumah besar itu orang yang punya
+Kalau engkau yang punya
+tentu engkau kagum dengan diri engkau pula
+
+Bila engkau lihat rumah orang besar
+Dengan taman-taman bunganya yang indah
+Keretanya yang besar menjalar dengan megah
+Terus menerpa ke dalam fikiranmu
+Dan terus terasa di jiwamu
+Meluncur ke mulutmu
+Hebatnya Tuhan yang empunya
+
+Tapi aku hairan dengan-Mu,
+Engkau tak terasa kehebatan Tuhan
+Padahal Tuhan miliki lebih dari itu
+Nasib manusia Tuhan yang menentukan
+      </p>
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_Yc0dso9368?si=8Fczo4zmufA45HYm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>          </div>
+    
+        <div class="card" id="lagu4">
+    <div class="title">Terima Kasih Tuhan</div>
+      <p>
+Terima kasih wahai Tuhanku
+Yang sentiasa melimpahkan Rohmat-Nya
+Membenarkan aku menghadap-Mu Tuhan
+Yang Maha Pengasih dan Maha Penyayang
+
+Untuk bercakap dengan-Mu Tuhan
+Mengizinkan kuminta pada-Mu
+Memuja- memuji sepenuh hatiku
+Memohon munajat pada-Mu Ya Rabbi
+
+Terima kasih wahai Tuhanku
+Yang sentiasa melimpahkan Rohmat-Nya
+Membenarkan aku menghadap-Mu Tuhan
+Yang Maha Pengasih dan Maha Penyayang
+
+Untuk bercakap dengan-Mu Tuhan
+Mengizinkan kuminta pada-Mu
+Memuja- memuji sepenuh hatiku
+Memohon munajat pada-Mu Ya Rabbi
+
+Tapi aku khwatir ketika menghadap-Mu
+Tidak pula pandai beradab dengan-Mu
+Aku mula bimbang kalau aku derhaka
+Dalam ketaatan bukan Rohmat dari-MU yang kudapat
+Tapi ku kan dapat kemarahan-Mu
+
+Ya Rabbal Alamin
+Maafkanlah Aku
+Ya Rabbal Alamin
+Maafkanlah Aku
+(Maafkan aku)
+
+      </p>
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/J7acW5WgBKg?si=U5iWXvM_xi88qxWh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                
+    </div>
+</div>    
+      <div class="card" id="lagu5">
+      <div class="title">Luruskan Hatiku</div>
+      <p>
+Ya.. Allah dengan berkat Nabi-Mu dan berkat guruku
+Luruskanlah hatiku,agar agamaku lurus
+Betulkanlah hatiku,agar ku ikhlas selalu
+Tetapkanlah hatiku,agar ku tak tergugat
+Dengan ujian yang menimpa
+
+Ya.. Allah, Tuhan yang mencipta hati
+Bersihkanlah hatiku,agar masmumahku 
+Tidak merosakkan agamaku
+Dan juga tidak merosakkan kehidupan orang lain
+
+Wahai Tuhan yang membolak - balikkan hati kuatkanlah hatiku
+Agar keyakinanku tak berobah
+Supaya aku sentiasa tabah
+
+Tuhan, Engkau resapkanlah hatiku
+Sentiasa bersama-Mu
+Supaya aku rasa,ada kawan melindungku
+Agar aku tak rasa sepi di dalam hidupku
+
+Aku merasa malu melanggar perintah
+Dan aku sentiasa siap siaga menunaikan suruhan-Mu
+
+Ya... Allah, Tuhan yang menjaga hati
+Baikilah hatiku,agar seluruh hidupku menjadi baik
+Supaya tidak khianat,dan tidak hasat dan tidak berdendam sesama manusia 
+
+Tuhan, limpahkan kedalam hatiku
+Ilmu dan hikmah
+Hingga aku dapat menyuluh hati dan menyuluh kehidupanku
+
+Supaya lahir batinku bersyariat
+Agar lahir batinku menjadi taat
+Tuhan aku harap Engkau kabulkanlah doaku kini.
+      </p>
+              
+<div class="video-container">              
+<iframe width="560" height="315" src="https://www.youtube.com/embed/gMXPcTeYn28?si=oXgv7_v2KyyoetpZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>              
+</div>              
+    </div>
+        
+      <div class="card" id="lagu6">
+      <div class="title">Kupinta Redho-Mu</div>
+      <p>
+Redha-Mu padaku yang kupinta…..
+Redha-Mu padaku yang kupinta…..
+Redha-Mu padaku yang kupinta…..
+
+Ya Allah, Ya Tuhanku
+Tidak kira apa berlaku padaku
+Miskin atau kaya, sakit atau sihat
+Yang penting adalah redha-Mu, redha-Mu
+
+Redha-Mu, redha-Mu, redha-Mu
+Ha.. a.. ha…
+
+Redha-Mu padaku amat mahal sekali
+Redha-Mu padaku amat mahal sekali
+Sebab itu aku meminta selalu….
+
+Jika redha-Mu Kau beri padaku
+Sekalipun seluruh dunia menghinaku
+Aku tak peduli
+
+Walau aku miskin, kurasa bahagia
+Apalah ertinya aku kaya
+Engkau kan murka
+Apalah ertinya ada nama
+Jika Engkau murka
+
+Jika Engkau murka segalanya tiada
+Jika Engkau murka segalanya tiada
+Sungguh mahal redha-Mu
+Tuhanku…
+
+Tuhanku, tuhanku, tuhanku….
+Ha.. a.. ha….
+
+Berilah keredhaan-Mu
+Berilah padaku selalu
+Kerana itulah aku beramal
+Bukan kerana pahala
+Bukan kerana fadhilat
+Bukan kerana syurga
+
+Tapi inginkan redha-Mu
+Untuk keselamatan diriku
+Tapi inginkan redha-Mu
+Untuk keselamatan diriku
+
+Redha-Mu padaku yang kupinta…..
+Redha-Mu padaku yang kupinta…..
+Redha-Mu padaku yang kupinta…..
+(Kupinta selalu)
+      </p>
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BbJT1kU4S1M?si=Pfnkl1h8-wodz-ge" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>    
+</div>          </div>
+    
+
+  
+
+  <!-- Buta</div>ng Scroll Up -->
+  <button onclick="scrollToTop()" id="scrollUpBtn" title="Kembali ke atas">⬆</button>
+
+  <script>
+    // Toggle menu
+    const menuToggle = document.getElementById("menuToggle");
+    const menu = document.getElementById("menu");
+
+    menuToggle.addEventListener("click", () => {
+      menu.classList.toggle("active");
+      menuToggle.classList.toggle("active");
+    });
+
+    function closeMenu() {
+      menu.classList.remove("active");
+      menuToggle.classList.remove("active");
+    }
+
+    // Butang scroll up
+    window.onscroll = function() {scrollFunction()};
+    function scrollFunction() {
+      const btn = document.getElementById("scrollUpBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
